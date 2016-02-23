@@ -239,6 +239,8 @@ public class ChartActivity extends Activity{
 
             linechart.setLinesData(lines);
 
+            linechart.invalidate();
+
             for (int i = 0;i<Work1.datas.get(0).size();i++){
                 Log.d("-----------",Work1.datas.get(0).get(i).getDate()+"->"+Work1.datas.get(0).get(i).getValue());
             }
