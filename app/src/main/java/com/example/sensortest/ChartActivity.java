@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +24,19 @@ public class ChartActivity extends Activity{
     private GridChart gridchart;
     private LineChart linechart;
     private MsgReciver msgReciver;
-    private Button stopBtn;
+    private Button stopBtn,startBtn;
+    private Intent intent;
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 1){
+
+                startService(intent);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +48,27 @@ public class ChartActivity extends Activity{
         initGridChart();
         initLineChart();
 
+        intent = new Intent(this,DService.class);
+
         msgReciver = new MsgReciver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.whx.RECIVER");
-        registerReceiver(msgReciver,intentFilter);
+        registerReceiver(msgReciver, intentFilter);
 
-        final Intent intent = new Intent(this,DService.class);
-        startService(intent);
 
         stopBtn = (Button)findViewById(R.id.stop);
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopService(intent);
+            }
+        });
+
+        startBtn = (Button)findViewById(R.id.start);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.sendEmptyMessageDelayed(1,10000);
             }
         });
     }

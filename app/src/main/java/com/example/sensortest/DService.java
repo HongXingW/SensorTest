@@ -39,7 +39,7 @@ public class DService extends Service{
 
         super.onCreate();
         timer = new Timer();
-        timer.schedule(new Work1(this),0,5000);
+        timer.schedule(new Work2(this),0,2000);
 
         acquireWakeLock();
     }
@@ -58,7 +58,7 @@ public class DService extends Service{
         //datas = Work.datas;
         timer.cancel();
 
-        sendBroadcast(intent);
+//        sendBroadcast(intent);
 
 //        for(int i = 0;i<datas.size();i++){
 //            Log.d("------------",datas.get(i).getDate()+"--"+datas.get(i).getValue());
@@ -66,6 +66,7 @@ public class DService extends Service{
 
         releaseWakeLock();
 
+        Log.d("-------------","service stopped");
         super.onDestroy();
     }
 
